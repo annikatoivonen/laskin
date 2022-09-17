@@ -6,22 +6,24 @@ export default function App() {
   const [eka, setEka] = React.useState(0);
   const [toka, setToka] = React.useState(0);
   const [tulos, setTulos] = React.useState(0);
-  const [data, setData] = React.useState([]);
   const [text, setText] = React.useState('');
+  const [data, setData] = React.useState([]);
 
   const plus = () => {
     const newTulos = (Number(eka) + (Number(toka)));
+    const newText = (eka + " + " + toka + " = " + newTulos);
+    const newData = [...data, {key: newText}];
     setTulos(newTulos);
-    setText(eka + " + " + toka + " = " + newTulos);
-    const newData = [...data, {key: text}];
+    setText(newText);
     setData(newData);
   };
 
   const miinus = () => {
     const uusiTulos = (Number(eka) - (Number(toka)));
+    const newText = (eka + " - " + toka + " = " + uusiTulos);
+    const newData = [...data, {key: newText}];
     setTulos(uusiTulos);
-    setText(eka + " - " + toka + " = " + uusiTulos);
-    const newData = [...data, {key: text}];
+    setText(newText); 
     setData(newData);
   };
 
