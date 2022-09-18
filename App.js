@@ -1,13 +1,18 @@
 import { StyleSheet, TextInput, View, Button, Text, FlatList } from 'react-native';
 import React from 'react';
+import { NavigationContainer } from'@react-navigation/native';
+import { createNativeStackNavigator } from'@react-navigation/native-stack';
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+function Calculator({ navigation }) {
 
   const [eka, setEka] = React.useState(0);
   const [toka, setToka] = React.useState(0);
   const [tulos, setTulos] = React.useState(0);
   const [text, setText] = React.useState('');
   const [data, setData] = React.useState([]);
+  
 
   const plus = () => {
     const newTulos = (Number(eka) + (Number(toka)));
@@ -29,7 +34,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <View style={{flex:4, justifyContent:'center', alignItems:'center'}}
+      <View style={{flex:2, justifyContent:'center', alignItems:'center'}}
       >
       <Text style={styles.text}>Result: {tulos}</Text>
 
@@ -52,23 +57,46 @@ export default function App() {
           onPress={plus}
           title="+">
           </Button>
-
+          
           <Button
           title="-"
           onPress={miinus}>
           </Button>
+          <Button
+          title="History"
+          onPress={() => navigation.navigate('History', {data})}>
+          </Button>
           </View>
-          <View style={{flex:5}}>
-         <Text style={styles.text}>History:</Text>
-            <FlatList
+    </View>
+  ); 
+}
+function History ({ route, navigation }){
+
+  const { data } = route.params;
+
+  return(
+<View style={styles.container}>
+
+  <Text style={styles.text}>History:</Text>
+        <FlatList
             data={data}
             renderItem={({ item }) =>
             <Text>{item.key}</Text>
             }>
-            </FlatList>
-           </View>
-    </View>
-  ); 
+        </FlatList>
+</View>
+);
+}
+
+export default function App(){
+return(
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Calculator" component={Calculator} />
+        <Stack.Screen name="History" component={History} />
+      </Stack.Navigator>
+    </NavigationContainer>
+);
 }
   const styles = StyleSheet.create({
     container: {
@@ -88,7 +116,7 @@ export default function App() {
     },
   
     button: {
-      flex:1,
+      flex: 3,
       flexDirection: 'row',
       justifyContent: 'space-between',
       borderBottomColor: 'blue',
